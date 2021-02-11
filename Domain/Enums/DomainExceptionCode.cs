@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Domain.Enums
 {
-    public enum DomainExceptionCodes
+    public enum DomainExceptionCode
     {
         GeneralException = 1
     }

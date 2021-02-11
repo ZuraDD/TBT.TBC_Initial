@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Domain.Common
 {
-    public abstract class ComplexEntity : AuditableEntity, IHasDomainEvent, IEntity
+    public abstract class ComplexEntity : Auditable, IEntity, IHasDomainEvent 
     {
         public List<DomainEvent> DomainEvents { get; set; }
 

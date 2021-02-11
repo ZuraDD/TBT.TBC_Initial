@@ -2,7 +2,7 @@
 
 namespace Domain.Common
 {
-    public abstract class AuditableEntity
+    public abstract class Auditable
     {
         public DateTime CreatedAt { get; set; }
 

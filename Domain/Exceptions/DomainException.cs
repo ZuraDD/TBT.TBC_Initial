@@ -5,9 +5,12 @@ namespace Domain.Exceptions
 {
     public class DomainException : Exception
     {
-        public DomainException(DomainExceptionCodes code)
-            : base(code.ToString())
+        public DomainExceptionCode Code { get; set; }
+
+        public DomainException(string message, DomainExceptionCode code)
+            : base(message)
         {
+            Code = code;
         }
     }
 }
