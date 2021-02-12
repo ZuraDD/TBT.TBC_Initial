@@ -7,8 +7,8 @@ namespace Domain.Exceptions
     {
         public DomainExceptionCode Code { get; set; }
 
-        public DomainException(string message, DomainExceptionCode code)
-            : base(message)
+        public DomainException(DomainExceptionCode code)
+            : base(code.ToString())
         {
             Code = code;
         }

@@ -19,7 +19,7 @@ namespace Application.Common.Behaviours
             }
             catch (DomainException ex)
             {
-                throw new ApplicationMessageException($"DomainException {ex.GetType().Name} Occured, With Code {ex.Code}");
+                throw new ApplicationMessageException($"DomainException Occured, With Code {ex.Code}");
             }
         }
     }

@@ -8,6 +8,7 @@ using Application;
 using FluentValidation.AspNetCore;
 using Infrastructure;
 using Infrastructure.WebApi.Extensions;
+using Microsoft.Extensions.Logging;
 
 namespace WebApi
 {
@@ -41,12 +42,15 @@ namespace WebApi
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory)
         {
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
+
+
+            loggerFactory.AddLog4Net(Configuration.GetValue<string>("Log4NetConfigFile:Name"));
 
             app.ConfigureCustomExceptionMiddleware();
 

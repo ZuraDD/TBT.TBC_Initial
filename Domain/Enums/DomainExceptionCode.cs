@@ -6,6 +6,11 @@ namespace Domain.Enums
 {
     public enum DomainExceptionCode
     {
-        GeneralException = 1
+        InvalidAge = 1,
+        InvalidPersonalNumber = 2,
+        InvalidPersonName = 3,
+        InvalidPhoneNumber = 4,
+        InvalidRelatedPerson = 5,
+        InvalidPerson = 6
     }
 }

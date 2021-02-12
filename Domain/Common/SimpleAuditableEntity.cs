@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Domain.Common
 {
-    public partial class SimpleEntity : IEntity
+    public abstract class SimpleAuditableEntity : Auditable, IEntity
     {
     }
 }

@@ -4,6 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Application.Common.Interfaces;
 using Domain.Common;
+using Domain.Entities;
 using IdentityServer4.EntityFramework.Options;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
@@ -14,6 +15,20 @@ namespace Infrastructure.Persistence
     {
         private readonly IDateTime _dateTime;
         private readonly IDomainEventService _domainEventService;
+
+        public DbSet<City> City { get; set; }
+
+        public DbSet<GenderType> GenderType { get; set; }
+
+        public DbSet<Person> Person { get; set; }
+
+        public DbSet<PhoneNumber> PhoneNumber { get; set; }
+
+        public DbSet<PhoneNumberType> PhoneNumberType { get; set; }
+
+        public DbSet<RelatedPerson> RelatedPerson { get; set; }
+
+        public DbSet<RelationType> RelationType { get; set; }
 
         public ApplicationDbContext(
             DbContextOptions options,
