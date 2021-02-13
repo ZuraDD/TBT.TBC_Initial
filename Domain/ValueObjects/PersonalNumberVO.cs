@@ -30,7 +30,7 @@ namespace Domain.ValueObjects
                 ||
                 instance.Value.Length != 11
                 ||
-                !Regex.Match(instance.Value, @"^([0-9])$", RegexOptions.IgnoreCase).Success
+                !Regex.Match(instance.Value, "^([0-9]+)$", RegexOptions.IgnoreCase).Success
             )
                 throw new DomainException(DomainExceptionCode.InvalidPersonalNumber);
         }

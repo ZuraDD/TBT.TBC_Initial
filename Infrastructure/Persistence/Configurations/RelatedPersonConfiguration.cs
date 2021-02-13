@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Infrastructure.Persistence.Configurations
 {
-    public class RelatedPersonConfiguration : IEntityTypeConfiguration<RelatedPerson>
+    public class RelatedPersonConfiguration : IEntityTypeConfiguration<Relation>
     {
-        public void Configure(EntityTypeBuilder<RelatedPerson> builder)
+        public void Configure(EntityTypeBuilder<Relation> builder)
         {
             builder.Ignore(t => t.DomainEvents);
 

@@ -5,7 +5,7 @@ namespace Infrastructure.WebApi.Extensions
 {
     public static class ConfigureGlobalExceptionHandlerMiddlewareExtension
     {
-        public static IApplicationBuilder ConfigureCustomExceptionMiddleware(this IApplicationBuilder app)
+        public static IApplicationBuilder ConfigureGlobalExceptionHandlerMiddleware(this IApplicationBuilder app)
         {
             return app.UseMiddleware<GlobalExceptionHandler>();
         }

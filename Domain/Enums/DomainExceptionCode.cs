@@ -10,7 +10,6 @@ namespace Domain.Enums
         InvalidPersonalNumber = 2,
         InvalidPersonName = 3,
         InvalidPhoneNumber = 4,
-        InvalidRelatedPerson = 5,
-        InvalidPerson = 6
+        InvalidRelatedPerson = 5
     }
 }

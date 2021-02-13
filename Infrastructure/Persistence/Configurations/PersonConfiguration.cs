@@ -36,9 +36,6 @@ namespace Infrastructure.Persistence.Configurations
 
             builder.OwnsOne(m => m.BirthDate, a =>
             {
-                a.HasIndex(t => t.Value)
-                    .IsUnique();
-
                 a.Property(p => p.Value)
                     .HasColumnName("BirthDate")
                     .IsRequired();

@@ -5,7 +5,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Application;
-using FluentValidation.AspNetCore;
 using Infrastructure;
 using Infrastructure.WebApi.Extensions;
 using Microsoft.Extensions.Logging;
@@ -29,8 +28,7 @@ namespace WebApi
 
             services.AddHttpContextAccessor();
 
-            services.AddControllers()
-                .AddFluentValidation();
+            services.AddControllers();
 
             // Ignore default API Validation behaviour
             services.Configure<ApiBehaviorOptions>(options =>
@@ -49,10 +47,9 @@ namespace WebApi
                 app.UseDeveloperExceptionPage();
             }
 
-
             loggerFactory.AddLog4Net(Configuration.GetValue<string>("Log4NetConfigFile:Name"));
 
-            app.ConfigureCustomExceptionMiddleware();
+            app.ConfigureGlobalExceptionHandlerMiddleware();
 
             app.UseSwagger();
 

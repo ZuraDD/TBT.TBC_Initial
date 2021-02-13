@@ -11,6 +11,6 @@ namespace Domain.Entities
 
         public string Name { get; set; }
 
-        public virtual ICollection<RelatedPerson> RelatedPersons { get; set; }
+        public virtual ICollection<Relation> RelatedPersons { get; set; }
     }
 }

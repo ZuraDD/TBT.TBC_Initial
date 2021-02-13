@@ -1,11 +1,13 @@
 ﻿using Domain.Common;
 using Domain.Enums;
+using Domain.Events.PersonEvents;
+using Domain.Events.RelationEvents;
 using Domain.Exceptions;
 using Domain.ValueObjects;
 
 namespace Domain.Entities
 {
-    public class RelatedPerson : ComplexEntity
+    public class Relation : ComplexEntity
     {
         public int Id { get; set; }
 
@@ -23,9 +25,9 @@ namespace Domain.Entities
 
         #region methods
 
-        public static RelatedPerson Create(RelationTypeEnum relationTypeId, int personForId, int personToId)
+        public static Relation Create(RelationTypeEnum relationTypeId, int personForId, int personToId)
         {
-            var instance = new RelatedPerson
+            var instance = new Relation
             {
                 RelationTypeId = relationTypeId,
                 PersonForId = personForId,
@@ -34,16 +36,22 @@ namespace Domain.Entities
 
             Validate(instance);
 
+            instance.DomainEvents.Add(new RelationCreatedEvent(instance));
+
             return instance;
         }
 
-        public static void Validate(RelatedPerson instance)
+        public void Delete()
+        {
+            DomainEvents.Add(new RelationDeletedEvent(this));
+        }
+
+        public static void Validate(Relation instance)
         {
             if(
                 instance.RelationTypeId == default
             )
                 throw new DomainException(DomainExceptionCode.InvalidRelatedPerson);
-
         }
 
         #endregion

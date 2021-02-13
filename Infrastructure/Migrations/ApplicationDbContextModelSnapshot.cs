@@ -141,7 +141,7 @@ namespace Infrastructure.Migrations
                     b.ToTable("PhoneNumberType");
                 });
 
-            modelBuilder.Entity("Domain.Entities.RelatedPerson", b =>
+            modelBuilder.Entity("Domain.Entities.Relation", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -172,7 +172,7 @@ namespace Infrastructure.Migrations
                     b.HasIndex("PersonForId", "PersonToId")
                         .IsUnique();
 
-                    b.ToTable("RelatedPerson");
+                    b.ToTable("Relation");
                 });
 
             modelBuilder.Entity("Domain.Entities.RelationType", b =>
@@ -217,10 +217,6 @@ namespace Infrastructure.Migrations
                                 .HasColumnName("BirthDate");
 
                             b1.HasKey("PersonId");
-
-                            b1.HasIndex("Value")
-                                .IsUnique()
-                                .HasFilter("[BirthDate] IS NOT NULL");
 
                             b1.ToTable("Person");
 
@@ -313,7 +309,7 @@ namespace Infrastructure.Migrations
                     b.Navigation("PhoneNumberType");
                 });
 
-            modelBuilder.Entity("Domain.Entities.RelatedPerson", b =>
+            modelBuilder.Entity("Domain.Entities.Relation", b =>
                 {
                     b.HasOne("Domain.Entities.Person", "PersonFor")
                         .WithMany("DirectRelatedPersons")

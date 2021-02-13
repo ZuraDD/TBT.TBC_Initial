@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Domain.Common;
 using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
@@ -19,11 +18,12 @@ namespace Application.Common.Interfaces
 
         DbSet<PhoneNumberType> PhoneNumberType { get; set; }
 
-        DbSet<RelatedPerson> RelatedPerson { get; set; }
+        DbSet<Relation> Relation { get; set; }
 
         DbSet<RelationType> RelationType { get; set; }
+
         DbContext GetContext();
 
-        Task<int> SaveChangesAsync(CancellationToken cancellationToken = default(CancellationToken));
+        Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
     }
 }

@@ -12,7 +12,7 @@ namespace Domain.ValueObjects
 {
     public class PhoneNumberVO : ValueObject
     {
-        public PhoneNumberTypeEnum Type { get; private set; }
+        public PhoneNumberTypeEnum Type { get; set; }
 
         public string Value { get; private set; }
 
@@ -30,9 +30,9 @@ namespace Domain.ValueObjects
             if (
                 instance.Type == default
                 ||
-                Enumerable.Range(4, 50).Contains(instance.Value.Length)
+                !Enumerable.Range(4, 50).Contains(instance.Value.Length)
                 ||
-                !Regex.Match(instance.Value, @"^([0-9])$", RegexOptions.IgnoreCase).Success
+                !Regex.Match(instance.Value, "^([0-9]+)$", RegexOptions.IgnoreCase).Success
             )
                 throw new DomainException(DomainExceptionCode.InvalidPhoneNumber);
         }

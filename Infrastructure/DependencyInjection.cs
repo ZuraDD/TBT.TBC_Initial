@@ -22,6 +22,8 @@ namespace Infrastructure
 
             services.AddTransient<IDateTime, DateTimeService>();
 
+            services.AddSingleton<IPhotoUploadService, PhotoUploadService>();
+
             return services;
         }
     }

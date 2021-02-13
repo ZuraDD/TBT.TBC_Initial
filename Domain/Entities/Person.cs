@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Domain.Common;
 using Domain.Enums;
+using Domain.Events.PersonEvents;
 using Domain.Exceptions;
 using Domain.ValueObjects;
 
@@ -27,9 +28,9 @@ namespace Domain.Entities
 
         public virtual ICollection<PhoneNumber> PhoneNumbers { get; set; }
 
-        public virtual ICollection<RelatedPerson> DirectRelatedPersons { get; set; }
+        public virtual ICollection<Relation> DirectRelatedPersons { get; set; }
 
-        public virtual ICollection<RelatedPerson> IndirectRelatedPersons { get; set; }
+        public virtual ICollection<Relation> IndirectRelatedPersons { get; set; }
 
         #region methods
 
@@ -39,8 +40,7 @@ namespace Domain.Entities
             string personalNumber, 
             DateTime birthDate , 
             GenderTypeEnum genderTypeId, 
-            int cityId,
-            GenderType genderType)
+            int cityId)
         {
             var nameVo = PersonNameVO.Create(firstName, lastName);
             var birthDateVo = BirthDateVO.Create(birthDate);
@@ -52,21 +52,51 @@ namespace Domain.Entities
                 BirthDate = birthDateVo,
                 PersonalNumber = personalNumberVo,
                 CityId = cityId,
-                GenderType = genderType
+                GenderTypeId = genderTypeId,
+                PhoneNumbers = new List<PhoneNumber>()
             };
 
             Validate(instance);
 
+            instance.DomainEvents.Add(new PersonCreatedEvent(instance));
+
             return instance;
         }
 
+        public void Update(
+            string firstName,
+            string lastName,
+            string personalNumber,
+            DateTime birthDate,
+            GenderTypeEnum genderTypeId,
+            int cityId)
+        {
+            var instance = Create(firstName, lastName, personalNumber, birthDate, genderTypeId, cityId);
+
+            Validate(instance);
+
+            Update(instance);
+        }
+
+        public void Update(Person instance)
+        {
+            Name = instance.Name;
+            BirthDate = instance.BirthDate;
+            PersonalNumber = instance.PersonalNumber;
+            CityId = instance.CityId;
+            GenderTypeId = instance.GenderTypeId;
+
+            DomainEvents.Add(new PersonUpdatedEvent(this));
+        }
+
+        public void Delete()
+        {
+            DomainEvents.Add(new PersonDeletedEvent(this));
+        }
 
         public static void Validate(Person instance)
         {
-            if (
-                instance.GenderType == default
-            )
-                throw new DomainException(DomainExceptionCode.InvalidPerson);
+
         }
 
         #endregion

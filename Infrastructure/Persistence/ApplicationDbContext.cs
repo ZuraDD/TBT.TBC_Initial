@@ -5,9 +5,7 @@ using System.Threading.Tasks;
 using Application.Common.Interfaces;
 using Domain.Common;
 using Domain.Entities;
-using IdentityServer4.EntityFramework.Options;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
 
 namespace Infrastructure.Persistence
 {
@@ -26,7 +24,7 @@ namespace Infrastructure.Persistence
 
         public DbSet<PhoneNumberType> PhoneNumberType { get; set; }
 
-        public DbSet<RelatedPerson> RelatedPerson { get; set; }
+        public DbSet<Relation> Relation { get; set; }
 
         public DbSet<RelationType> RelationType { get; set; }
 
@@ -80,6 +78,7 @@ namespace Infrastructure.Persistence
                 .Entries<IHasDomainEvent>()
                 .Select(x => x.Entity.DomainEvents)
                 .SelectMany(x => x)
+                .OrderBy(x => x.DateOccurred)
                 .Where(domainEvent => !domainEvent.IsPublished).ToList();
 
                 if (!domainEvents.Any()) return;

@@ -119,7 +119,7 @@ namespace Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "RelatedPerson",
+                name: "Relation",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -132,21 +132,21 @@ namespace Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_RelatedPerson", x => x.Id);
+                    table.PrimaryKey("PK_Relation", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_RelatedPerson_Person_PersonForId",
+                        name: "FK_Relation_Person_PersonForId",
                         column: x => x.PersonForId,
                         principalTable: "Person",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_RelatedPerson_Person_PersonToId",
+                        name: "FK_Relation_Person_PersonToId",
                         column: x => x.PersonToId,
                         principalTable: "Person",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_RelatedPerson_RelationType_RelationTypeId",
+                        name: "FK_Relation_RelationType_RelationTypeId",
                         column: x => x.RelationTypeId,
                         principalTable: "RelationType",
                         principalColumn: "Id",
@@ -164,13 +164,6 @@ namespace Infrastructure.Migrations
                 table: "GenderType",
                 column: "Name",
                 unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Person_BirthDate",
-                table: "Person",
-                column: "BirthDate",
-                unique: true,
-                filter: "[BirthDate] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Person_CityId",
@@ -212,19 +205,19 @@ namespace Infrastructure.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_RelatedPerson_PersonForId_PersonToId",
-                table: "RelatedPerson",
+                name: "IX_Relation_PersonForId_PersonToId",
+                table: "Relation",
                 columns: new[] { "PersonForId", "PersonToId" },
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_RelatedPerson_PersonToId",
-                table: "RelatedPerson",
+                name: "IX_Relation_PersonToId",
+                table: "Relation",
                 column: "PersonToId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_RelatedPerson_RelationTypeId",
-                table: "RelatedPerson",
+                name: "IX_Relation_RelationTypeId",
+                table: "Relation",
                 column: "RelationTypeId");
 
             migrationBuilder.CreateIndex(
@@ -240,7 +233,7 @@ namespace Infrastructure.Migrations
                 name: "PhoneNumber");
 
             migrationBuilder.DropTable(
-                name: "RelatedPerson");
+                name: "Relation");
 
             migrationBuilder.DropTable(
                 name: "PhoneNumberType");

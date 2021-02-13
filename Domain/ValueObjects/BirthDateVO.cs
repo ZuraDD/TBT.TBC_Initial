@@ -9,7 +9,7 @@ namespace Domain.ValueObjects
 {
     public class BirthDateVO : ValueObject
     {
-        public DateTime Value { get; set; }
+        public DateTime Value { get; private set; }
 
         public static BirthDateVO Create(DateTime birthDate)
         {
@@ -27,7 +27,7 @@ namespace Domain.ValueObjects
             if (
                 instance.Value == default
                 ||
-                instance.Value.AddYears(18) < DateTime.UtcNow
+                instance.Value > DateTime.UtcNow.AddYears(-18)
             )
                 throw new DomainException(DomainExceptionCode.InvalidAge);
         }

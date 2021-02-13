@@ -1,4 +1,5 @@
 ﻿using System;
+using Application.Common.Enums;
 
 namespace Application.Common.Exceptions
 {
@@ -11,6 +12,11 @@ namespace Application.Common.Exceptions
 
         public ApplicationMessageException(string message)
             : base(message)
+        {
+        }
+
+        public ApplicationMessageException(ApplicationExceptionCode code)
+            : base(code.ToString())
         {
         }
     }

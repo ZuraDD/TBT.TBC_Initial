@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using Application.Common.Exceptions;
 using Domain.Exceptions;
 using MediatR;
-using Microsoft.Extensions.Logging;
 
 namespace Application.Common.Behaviours
 {

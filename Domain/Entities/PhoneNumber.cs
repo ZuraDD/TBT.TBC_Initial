@@ -1,5 +1,6 @@
 ﻿using Domain.Common;
 using Domain.Enums;
+using Domain.Events.PersonEvents;
 using Domain.ValueObjects;
 
 namespace Domain.Entities
@@ -24,12 +25,43 @@ namespace Domain.Entities
         {
             var number = PhoneNumberVO.Create(type, value);
 
-            return new PhoneNumber
+            var instance = new PhoneNumber
             {
                 Value = number.Value,
                 PhoneNumberTypeId = number.Type,
                 PersonId = personId
             };
+
+            instance.DomainEvents.Add(new PersonPhoneNumberCreatedEvent(instance));
+
+            return instance;
+        }
+
+        public void Update(string value, PhoneNumberTypeEnum type)
+        {
+            var instance = Create(value, type, PersonId);
+
+            Validate(instance);
+
+            Update(instance);
+        }
+
+        public void Update(PhoneNumber instance)
+        {
+            Value = instance.Value;
+            PhoneNumberTypeId = instance.PhoneNumberTypeId;
+
+            DomainEvents.Add(new PersonPhoneNumberUpdatedEvent(this));
+        }
+
+        public void Delete()
+        {
+            DomainEvents.Add(new PersonPhoneNumberDeletedEvent(this));
+        }
+
+        public static void Validate(PhoneNumber instance)
+        {
+
         }
 
         #endregion

@@ -11,7 +11,7 @@ namespace Domain.ValueObjects
 {
     public class PersonNameVO : ValueObject
     {
-        public string FirstName { get; set; }
+        public string FirstName { get; private set; }
 
         public string LastName { get; set; }
 
@@ -34,13 +34,13 @@ namespace Domain.ValueObjects
                 ||
                 string.IsNullOrWhiteSpace(personName.LastName)
                 ||
-                !Regex.Match(personName.FirstName, @"^([a-zA-Z]+|[ა-ჰ]+)$", RegexOptions.IgnoreCase).Success
+                !Regex.Match(personName.FirstName, "^([a-zA-Z]+|[ა-ჰ]+)$", RegexOptions.IgnoreCase).Success
                 ||
-                !Regex.Match(personName.LastName, @"^([a-zA-Z]+|[ა-ჰ]+)$", RegexOptions.IgnoreCase).Success
+                !Regex.Match(personName.LastName, "^([a-zA-Z]+|[ა-ჰ]+)$", RegexOptions.IgnoreCase).Success
                 ||
-                Enumerable.Range(2, 50).Contains(personName.FirstName.Length)
+                !Enumerable.Range(2, 50).Contains(personName.FirstName.Length)
                 ||
-                Enumerable.Range(2, 50).Contains(personName.LastName.Length)
+                !Enumerable.Range(2, 50).Contains(personName.LastName.Length)
             )
                 throw new DomainException(DomainExceptionCode.InvalidPersonName);
         }
