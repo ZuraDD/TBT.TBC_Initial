@@ -15,7 +15,7 @@ namespace Application.PersonController.Commands.CreatePerson
 
             RuleFor(v => v.PersonalNumber).NotEmpty().Length(11).Matches("^([0-9]+)$");
 
-            RuleFor(v => v.BirthDate).Must(BeAValidDate).NotEmpty();
+            RuleFor(v => v.BirthDate).Must(BeAValidDate).WithMessage("Age must be grater than 18").NotEmpty();
 
             RuleFor(v => v.GenderType).IsInEnum();
 

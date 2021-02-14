@@ -19,7 +19,6 @@ namespace Infrastructure.Persistence.Configurations
                 .WithMany(t => t.RelatedPersons)
                 .HasForeignKey(t => t.RelationTypeId);
 
-
             builder.HasOne(t => t.PersonFor)
                 .WithMany(t => t.DirectRelatedPersons)
                 .HasForeignKey(t => t.PersonForId);

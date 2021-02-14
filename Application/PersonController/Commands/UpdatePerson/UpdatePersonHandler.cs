@@ -25,15 +25,15 @@ namespace Application.PersonController.Commands.UpdatePerson
 
         public async Task<Unit> Handle(UpdatePersonCommand request, CancellationToken cancellationToken)
         {
+            var personNew = Person.Create(request.FirstName, request.LastName, request.PersonalNumber,
+                request.BirthDate, request.GenderType, request.CityId);
+
             var person = _context.Person.Include(x => x.PhoneNumbers).SingleOrDefault(x => x.Id == request.Id);
 
             if (person == default(Person))
             {
                 throw new ApplicationMessageException(ApplicationExceptionCode.PersonNotFound);
             }
-
-            var personNew = Person.Create(request.FirstName, request.LastName, request.PersonalNumber,
-                request.BirthDate, request.GenderType, request.CityId);
 
             if (_context.Person.Any(x => x.Id != person.Id && x.PersonalNumber.Value == personNew.PersonalNumber.Value))
             {

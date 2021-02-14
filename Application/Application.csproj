@@ -20,8 +20,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="PersonController\Queries\" />
     <Folder Include="RelationController\Queries\" />
+    <Folder Include="ReportController\Commands\" />
   </ItemGroup>
 
 </Project>

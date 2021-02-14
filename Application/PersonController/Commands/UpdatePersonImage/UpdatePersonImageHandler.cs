@@ -1,5 +1,4 @@
-﻿using System.IO;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Application.Common.Enums;
@@ -35,20 +34,7 @@ namespace Application.PersonController.Commands.UpdatePersonImage
                 throw new ApplicationMessageException(ApplicationExceptionCode.PersonNotFound);
             }
 
-            var fileName = _photoUploadService.GetUniqueFileName(request.ProfileImage.FileName);
-
-            var absoluteFilePath = _photoUploadService.GetAbsoluteUploadFilePathForPerson(person.Id, fileName);
-
-            var relativeFilePath = _photoUploadService.GetRelativeUploadFilePathForPerson(person.Id, fileName);
-
-            _photoUploadService.CleanDirectory(person.Id);
-
-            await using (var fileStream = new FileStream(absoluteFilePath, FileMode.Create))
-            {
-                await request.ProfileImage.CopyToAsync(fileStream, cancellationToken);
-            }
-
-            person.RelativeImagePath = relativeFilePath;
+            person.ImagePath = await _photoUploadService.UplodPhotoAndReturnRelativePath(request.ProfileImage, person.Id, cancellationToken);
 
             _context.Person.Update(person);
 

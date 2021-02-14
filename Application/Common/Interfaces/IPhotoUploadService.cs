@@ -1,15 +1,13 @@
-﻿namespace Application.Common.Interfaces
+﻿using System.Threading;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
+
+namespace Application.Common.Interfaces
 {
     public interface IPhotoUploadService
     {
-        string GetAbsoluteUploadFolderPathForPerson(int personId);
+        Task<string> UplodPhotoAndReturnRelativePath(IFormFile file, int personId, CancellationToken cancellationToken);
 
-        string GetAbsoluteUploadFilePathForPerson(int personId, string fileName);
-
-        string GetRelativeUploadFilePathForPerson(int personId, string fileName);
-
-        void CleanDirectory(int personId);
-
-        string GetUniqueFileName(string baseName);
+        string GetWebRootPath();
     }
 }

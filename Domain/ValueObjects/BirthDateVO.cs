@@ -37,6 +37,11 @@ namespace Domain.ValueObjects
             return instance.ToString();
         }
 
+        public static implicit operator DateTime(BirthDateVO instance)
+        {
+            return instance.Value;
+        }
+
         public static explicit operator BirthDateVO(DateTime value)
         {
             return Create(value);

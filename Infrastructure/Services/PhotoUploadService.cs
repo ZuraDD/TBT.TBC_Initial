@@ -1,7 +1,10 @@
 ﻿using System;
 using System.IO;
+using System.Threading;
+using System.Threading.Tasks;
 using Application.Common.Interfaces;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 
 namespace Infrastructure.Services
 {
@@ -9,11 +12,11 @@ namespace Infrastructure.Services
     {
         public IWebHostEnvironment Env { get; }
 
-        public string DefaultWebRootDirectoryName { get; set; } = "wwwroot";
+        private static string DefaultWebRootDirectoryName { get; set; } = "wwwroot";
 
-        public string UploadFolderRelativePath = "Images/Person";
+        private string UploadFolderRelativePath = "Images/Person";
 
-        public string WebRootPath { get; }
+        private string WebRootPath { get; set; }
 
         public string UploadFolderAbsolutePath { get; set; }
 
@@ -21,32 +24,61 @@ namespace Infrastructure.Services
         {
             Env = hostEnvironment;
 
-            WebRootPath = GetWebRootPath();
+            Init();
+        }
+
+        #region Public Methods
+
+        public string GetWebRootPath()
+        {
+            return WebRootPath;
+        }
+
+        public async Task<string> UplodPhotoAndReturnRelativePath(IFormFile file, int personId, CancellationToken cancellationToken)
+        {
+            var fileName = GetUniqueFileName(file.FileName);
+
+            var absoluteFilePath = GetAbsoluteUploadFilePathForPerson(personId, fileName);
+
+            var relativeFilePath = GetRelativeUploadFilePathForPerson(personId, fileName);
+
+            CleanDirectory(personId);
+
+            await using (var fileStream = new FileStream(absoluteFilePath, FileMode.Create))
+            {
+                await file.CopyToAsync(fileStream, cancellationToken);
+            }
+
+            return relativeFilePath;
+        }
+
+        #endregion
+
+        #region Private Methods
+
+        private void Init()
+        {
+            WebRootPath = !string.IsNullOrWhiteSpace(Env.WebRootPath) ? Env.WebRootPath : Path.Combine(Directory.GetCurrentDirectory(), DefaultWebRootDirectoryName);
 
             UploadFolderAbsolutePath = Path.Combine(WebRootPath, UploadFolderRelativePath);
         }
 
-        private string GetWebRootPath()
-        {
-            return !string.IsNullOrWhiteSpace(Env.WebRootPath) ? Env.WebRootPath : Path.Combine(Directory.GetCurrentDirectory(), DefaultWebRootDirectoryName);
-        }
-
-        public string GetAbsoluteUploadFolderPathForPerson(int personId)
+        private string GetAbsoluteUploadFolderPathForPerson(int personId)
         {
             return Path.Combine(UploadFolderAbsolutePath, $"{personId}");
         }
 
-        public string GetAbsoluteUploadFilePathForPerson(int personId, string fileName)
+        private string GetAbsoluteUploadFilePathForPerson(int personId, string fileName)
         {
             return Path.Combine(UploadFolderAbsolutePath, $"{personId}", fileName);
         }
 
-        public string GetRelativeUploadFilePathForPerson(int personId, string fileName)
+        private string GetRelativeUploadFilePathForPerson(int personId, string fileName)
         {
             return Path.Combine(UploadFolderRelativePath, $"{personId}", fileName);
         }
 
-        public void CleanDirectory(int personId)
+        private void CleanDirectory(int personId)
         {
             var directory = GetAbsoluteUploadFolderPathForPerson(personId);
 
@@ -62,9 +94,11 @@ namespace Infrastructure.Services
                 File.Delete(fileName);
         }
 
-        public string GetUniqueFileName(string baseName)
+        private string GetUniqueFileName(string baseName)
         {
             return Guid.NewGuid() + "_" + baseName;
         }
+
+        #endregion
     }
 }

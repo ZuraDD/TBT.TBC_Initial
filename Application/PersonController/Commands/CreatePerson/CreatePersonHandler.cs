@@ -24,13 +24,13 @@ namespace Application.PersonController.Commands.CreatePerson
 
         public async Task<Unit> Handle(CreatePersonCommand request, CancellationToken cancellationToken)
         {
-            if (_context.Person.Any(x => x.PersonalNumber.Value == request.PersonalNumber))
+            var person = Person.Create(request.FirstName, request.LastName, request.PersonalNumber,
+                request.BirthDate, request.GenderType, request.CityId);
+
+            if (_context.Person.Any(x => x.PersonalNumber.Value == person.PersonalNumber.Value))
             {
                 throw new ApplicationMessageException(ApplicationExceptionCode.PersonalNumberAlreadyExists);
             }
-
-            var person = Person.Create(request.FirstName, request.LastName, request.PersonalNumber,
-                request.BirthDate, request.GenderType, request.CityId);
 
             foreach (var phoneNumber in request.PhoneNumbers.Select(x => PhoneNumber.Create(x.Value, x.TypeId, person.Id)))
             {

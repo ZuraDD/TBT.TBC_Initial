@@ -49,6 +49,8 @@ namespace WebApi
 
             loggerFactory.AddLog4Net(Configuration.GetValue<string>("Log4NetConfigFile:Name"));
 
+            app.ConfigureLocalizationMiddleware();
+
             app.ConfigureGlobalExceptionHandlerMiddleware();
 
             app.UseSwagger();

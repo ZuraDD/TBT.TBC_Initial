@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 
-namespace Application.Common.Helpers
+namespace Application.Common.Mappings
 {
     public class PaginatedList<T> 
     {
@@ -38,8 +38,11 @@ namespace Application.Common.Helpers
 
         public static async Task<PaginatedList<T>> CreateAsync(IEnumerable<T> source, int pageIndex, int pageSize)
         {
-            var count = source.Count();
-            var items = source.Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList();
+            var items = source.ToList();
+
+            var count = items.Count;
+
+            items = items.Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList();
 
             return await Task.FromResult(new PaginatedList<T>(items, count, pageIndex, pageSize));
         }

@@ -1,14 +1,19 @@
 ﻿using System;
 using System.Linq;
 using System.Reflection;
+using Application.Common.Interfaces;
 using AutoMapper;
 
 namespace Application.Common.Mappings
 {
     public class MappingProfile : Profile
     {
-        public MappingProfile()
+        public readonly IPhotoUploadService PhotoUploadService;
+
+        public MappingProfile(IPhotoUploadService photoUploadService)
         {
+            PhotoUploadService = photoUploadService;
+
             ApplyMappingsFromAssembly(Assembly.GetExecutingAssembly());
         }
 

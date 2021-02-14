@@ -18,7 +18,7 @@ namespace Domain.Entities
 
         public BirthDateVO BirthDate { get; set; }
 
-        public string RelativeImagePath { get; set; }
+        public string ImagePath { get; set; }
 
         public GenderTypeEnum? GenderTypeId { get; set; }
         public virtual GenderType GenderType { get; set; }
