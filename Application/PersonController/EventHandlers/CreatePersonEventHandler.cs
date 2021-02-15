@@ -4,6 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Application.Common.Models;
 using Domain.Events.PersonEvents;
+using Newtonsoft.Json;
 
 namespace Application.PersonController.EventHandlers
 {
@@ -21,6 +22,14 @@ namespace Application.PersonController.EventHandlers
             var domainEvent = notification.DomainEvent;
 
             _logger.LogInformation("Domain Event: {DomainEvent} Handled", domainEvent.GetType().Name);
+
+            var info = JsonConvert.SerializeObject(notification.DomainEvent, Formatting.None,
+                new JsonSerializerSettings
+                {
+                    ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+                });
+
+            _logger.LogInformation($"Info - {info}");
 
             return Task.CompletedTask;
         }

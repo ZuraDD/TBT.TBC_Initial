@@ -15,7 +15,7 @@ namespace Application.PersonController.Commands.CreatePerson
 
         public DateTime BirthDate { get; set; }
 
-        public GenderTypeEnum GenderType { get; set; }
+        public GenderTypeEnum? GenderType { get; set; }
 
         public int CityId { get; set; }
 

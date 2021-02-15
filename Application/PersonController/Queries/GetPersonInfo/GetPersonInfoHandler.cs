@@ -33,6 +33,7 @@ namespace Application.PersonController.Queries.GetPersonInfo
                 .ThenInclude(x => x.PersonTo)
                 .AsNoTracking()
                 .ProjectTo<GetPersonInfoDto>(_mapper.ConfigurationProvider)
+                .AsNoTracking()
                 .SingleOrDefaultAsync(cancellationToken);
 
             if (data == default(GetPersonInfoDto))

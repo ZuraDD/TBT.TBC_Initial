@@ -35,7 +35,7 @@ namespace Application.PersonController.Queries.GetPersonList.Models
                 .ForMember(d => d.LastName, opt => opt.MapFrom(s => s.Name.LastName))
                 .ForMember(d => d.PersonalNumber, opt => opt.MapFrom(s => s.PersonalNumber.Value))
                 .ForMember(d => d.BirthDate, opt => opt.MapFrom(s => s.BirthDate.Value))
-                .ForMember(d => d.ImagePath, opt => opt.MapFrom(s => Path.Combine(profile.PhotoUploadService.GetWebRootPath(), s.ImagePath)))
+                .ForMember(d => d.ImagePath, opt => opt.MapFrom(s => !string.IsNullOrWhiteSpace(s.ImagePath) ? Path.Combine(profile.PhotoUploadService.GetWebRootPath(), s.ImagePath) : null))
                 .ForMember(d => d.GenderTypeId, opt => opt.MapFrom(s => s.GenderTypeId))
                 .ForMember(d => d.GenderTypeName, opt => opt.MapFrom(s => s.GenderType.Name))
                 .ForMember(d => d.CityId, opt => opt.MapFrom(s => s.CityId))

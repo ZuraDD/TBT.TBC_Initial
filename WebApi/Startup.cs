@@ -7,6 +7,7 @@ using Microsoft.Extensions.Hosting;
 using Application;
 using Infrastructure;
 using Infrastructure.WebApi.Extensions;
+using Infrastructure.WebApi.Filters;
 using Microsoft.Extensions.Logging;
 
 namespace WebApi
@@ -28,7 +29,18 @@ namespace WebApi
 
             services.AddHttpContextAccessor();
 
-            services.AddControllers();
+            services.AddCors(options =>
+            {
+                options.AddPolicy("EnableCors",
+                    builder => builder.AllowAnyOrigin()
+                        .AllowAnyMethod()
+                        .AllowAnyHeader());
+            });
+
+            services.AddControllers(config =>
+            {
+                config.Filters.Add(new SuccessfulResponseWrapperFilter());
+            });
 
             // Ignore default API Validation behaviour
             services.Configure<ApiBehaviorOptions>(options =>
@@ -61,11 +73,12 @@ namespace WebApi
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "API V1");
             });
 
-
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
             app.UseRouting();
+
+            app.UseCors("EnableCors");
 
             app.UseAuthorization();
 

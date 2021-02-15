@@ -24,8 +24,6 @@ namespace Application.PersonController.Queries.GetPersonList
 
             RuleFor(v => v.GenderTypeId).IsInEnum();
 
-            RuleFor(v => v.SearchTypeId).NotEmpty().IsInEnum();
-
             RuleFor(v => v.PageNumber).NotEmpty().GreaterThan(0);
 
             RuleFor(v => v.PageSize).NotEmpty().GreaterThan(0);

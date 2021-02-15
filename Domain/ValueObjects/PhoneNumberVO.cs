@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security;
 using System.Text;
 using System.Text.RegularExpressions;
 using Domain.Common;
@@ -29,6 +30,8 @@ namespace Domain.ValueObjects
         {
             if (
                 instance.Type == default
+                ||
+                string.IsNullOrWhiteSpace(instance.Value)
                 ||
                 !Enumerable.Range(4, 50).Contains(instance.Value.Length)
                 ||

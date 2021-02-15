@@ -21,7 +21,8 @@ namespace Infrastructure.Persistence.Configurations
 
             builder.HasOne(t => t.PersonFor)
                 .WithMany(t => t.DirectRelatedPersons)
-                .HasForeignKey(t => t.PersonForId);
+                .HasForeignKey(t => t.PersonForId)
+                .OnDelete(DeleteBehavior.Restrict);
 
             builder.HasOne(t => t.PersonTo)
                 .WithMany(t => t.IndirectRelatedPersons)

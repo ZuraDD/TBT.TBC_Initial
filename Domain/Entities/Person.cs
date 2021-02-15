@@ -39,7 +39,7 @@ namespace Domain.Entities
             string lastName, 
             string personalNumber, 
             DateTime birthDate , 
-            GenderTypeEnum genderTypeId, 
+            GenderTypeEnum? genderTypeId, 
             int cityId)
         {
             var nameVo = PersonNameVO.Create(firstName, lastName);
@@ -68,7 +68,7 @@ namespace Domain.Entities
             string lastName,
             string personalNumber,
             DateTime birthDate,
-            GenderTypeEnum genderTypeId,
+            GenderTypeEnum? genderTypeId,
             int cityId)
         {
             var instance = Create(firstName, lastName, personalNumber, birthDate, genderTypeId, cityId);
@@ -96,7 +96,11 @@ namespace Domain.Entities
 
         public static void Validate(Person instance)
         {
-
+            if(
+                instance.CityId <= 0 ||
+                instance.GenderTypeId == default(GenderTypeEnum)
+            )
+                throw new DomainException(DomainExceptionCode.InvalidPerson);
         }
 
         #endregion

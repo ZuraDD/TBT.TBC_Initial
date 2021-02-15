@@ -25,11 +25,11 @@ namespace Domain.ValueObjects
             // Validations goes here
 
             if (
-                instance.Value == default
+                instance.Value == default(DateTime)
                 ||
                 instance.Value > DateTime.UtcNow.AddYears(-18)
             )
-                throw new DomainException(DomainExceptionCode.InvalidAge);
+                throw new DomainException(DomainExceptionCode.InvalidBirthDate);
         }
 
         public static implicit operator string(BirthDateVO instance)

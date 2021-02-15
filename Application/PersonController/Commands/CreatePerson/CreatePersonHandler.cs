@@ -6,6 +6,7 @@ using Application.Common.Exceptions;
 using Application.Common.Interfaces;
 using Domain.Entities;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace Application.PersonController.Commands.CreatePerson
@@ -27,14 +28,14 @@ namespace Application.PersonController.Commands.CreatePerson
             var person = Person.Create(request.FirstName, request.LastName, request.PersonalNumber,
                 request.BirthDate, request.GenderType, request.CityId);
 
-            if (_context.Person.Any(x => x.PersonalNumber.Value == person.PersonalNumber.Value))
+            if (await _context.Person.AnyAsync(x => x.PersonalNumber.Value == person.PersonalNumber.Value, cancellationToken))
             {
                 throw new ApplicationMessageException(ApplicationExceptionCode.PersonalNumberAlreadyExists);
             }
 
             foreach (var phoneNumber in request.PhoneNumbers.Select(x => PhoneNumber.Create(x.Value, x.TypeId, person.Id)))
             {
-                if (_context.PhoneNumber.Any(x => x.Value == phoneNumber.Value))
+                if (await _context.PhoneNumber.AnyAsync(x => x.Value == phoneNumber.Value, cancellationToken))
                 {
                     throw new ApplicationMessageException(ApplicationExceptionCode.PhoneNumberAlreadyExists);
                 }

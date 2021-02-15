@@ -1,9 +1,7 @@
 ﻿using Domain.Common;
 using Domain.Enums;
-using Domain.Events.PersonEvents;
 using Domain.Events.RelationEvents;
 using Domain.Exceptions;
-using Domain.ValueObjects;
 
 namespace Domain.Entities
 {
@@ -49,9 +47,11 @@ namespace Domain.Entities
         public static void Validate(Relation instance)
         {
             if(
-                instance.RelationTypeId == default
+                instance.RelationTypeId == default(RelationTypeEnum) ||
+                instance.PersonForId <= 0 ||
+                instance.PersonToId <= 0
             )
-                throw new DomainException(DomainExceptionCode.InvalidRelatedPerson);
+                throw new DomainException(DomainExceptionCode.InvalidRelation);
         }
 
         #endregion

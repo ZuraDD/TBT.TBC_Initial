@@ -1,6 +1,7 @@
 ﻿using Domain.Common;
 using Domain.Enums;
 using Domain.Events.PersonEvents;
+using Domain.Exceptions;
 using Domain.ValueObjects;
 
 namespace Domain.Entities
@@ -32,6 +33,8 @@ namespace Domain.Entities
                 PersonId = personId
             };
 
+            Validate(instance);
+
             instance.DomainEvents.Add(new PersonPhoneNumberCreatedEvent(instance));
 
             return instance;
@@ -61,7 +64,7 @@ namespace Domain.Entities
 
         public static void Validate(PhoneNumber instance)
         {
-
+  
         }
 
         #endregion

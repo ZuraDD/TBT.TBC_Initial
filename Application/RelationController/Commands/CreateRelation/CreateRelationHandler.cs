@@ -6,6 +6,7 @@ using Application.Common.Exceptions;
 using Application.Common.Interfaces;
 using Domain.Entities;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace Application.RelationController.Commands.CreateRelation
@@ -26,13 +27,13 @@ namespace Application.RelationController.Commands.CreateRelation
         {
             var relation = Relation.Create(request.RelationType, request.PersonFor, request.PersonTo);
 
-            if (_context.Person.SingleOrDefault(x => x.Id == relation.PersonForId) == default(Person) ||
-                _context.Person.SingleOrDefault(x => x.Id == relation.PersonToId) == default(Person))
+            if (await _context.Person.SingleOrDefaultAsync(x => x.Id == relation.PersonForId, cancellationToken) == default(Person) ||
+                await _context.Person.SingleOrDefaultAsync(x => x.Id == relation.PersonToId, cancellationToken) == default(Person))
             {
                 throw new ApplicationMessageException(ApplicationExceptionCode.PersonNotFound);
             }
 
-            if (_context.Relation.Any(x => x.PersonForId == relation.PersonForId && x.PersonToId == relation.PersonToId))
+            if (await _context.Relation.AnyAsync(x => x.PersonForId == relation.PersonForId && x.PersonToId == relation.PersonToId, cancellationToken))
             {
                 throw new ApplicationMessageException(ApplicationExceptionCode.RelationAlreadyExists);
             }

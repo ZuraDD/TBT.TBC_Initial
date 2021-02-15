@@ -4,7 +4,7 @@ namespace Infrastructure.WebApi.Models
 {
     public class FailResponse
     {
-        public StatusCodeEnum Status { get; set; } = StatusCodeEnum.Fail;
+        public string Status { get; set; } = StatusCodeEnum.Fail.ToString();
 
         public string ErrorMessage { get; set; }
 

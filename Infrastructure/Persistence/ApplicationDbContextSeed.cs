@@ -13,17 +13,12 @@ namespace Infrastructure.Persistence
     {
         public static async Task SeedSampleDataAsync(IApplicationDbContext context)
         {
-            var updated = false;
-
-
             if (!context.GenderType.Any())
             {
                 var data = Enum.GetValues(typeof(GenderTypeEnum)).Cast<GenderTypeEnum>().ToList()
                     .Select(x => new GenderType {Id = x, Name = x.ToString()});
 
                 await context.GenderType.AddRangeAsync(data);
-
-                updated = true;
             }
 
             if (!context.PhoneNumberType.Any())
@@ -32,8 +27,6 @@ namespace Infrastructure.Persistence
                     .Select(x => new PhoneNumberType {Id = x, Name = x.ToString()});
 
                 await context.PhoneNumberType.AddRangeAsync(data);
-
-                updated = true;
             }
 
             if (!context.RelationType.Any())
@@ -42,8 +35,6 @@ namespace Infrastructure.Persistence
                     .Select(x => new RelationType {Id = x, Name = x.ToString()});
 
                 await context.RelationType.AddRangeAsync(data);
-
-                updated = true;
             }
 
             var cities = new List<string>
@@ -113,15 +104,12 @@ namespace Infrastructure.Persistence
                 "ახალი"
             };
 
-        if (!context.City.Any())
+            if (!context.City.Any())
             {
                 await context.City.AddRangeAsync(cities.Select(x => new City { Name = x.ToString() }));
-
-                updated = true;
             }
 
-            if(updated)
-                await context.SaveChangesAsync();
+            await context.SaveChangesAsync();
         }
     }
 }

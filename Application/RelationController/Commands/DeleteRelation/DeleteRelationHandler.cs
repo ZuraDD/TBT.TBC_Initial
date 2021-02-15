@@ -7,6 +7,7 @@ using Application.Common.Interfaces;
 using Application.PersonController.Commands.UpdatePerson;
 using Domain.Entities;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace Application.RelationController.Commands.DeleteRelation
@@ -25,14 +26,14 @@ namespace Application.RelationController.Commands.DeleteRelation
 
         public async Task<Unit> Handle(DeleteRelationCommand request, CancellationToken cancellationToken)
         {
-            var person = _context.Person.SingleOrDefault(x => x.Id == request.PersonId);
+            var person = await _context.Person.SingleOrDefaultAsync(x => x.Id == request.PersonId, cancellationToken);
 
             if (person == default(Person))
             {
                 throw new ApplicationMessageException(ApplicationExceptionCode.PersonNotFound);
             }
 
-            var relation = _context.Relation.SingleOrDefault(x => x.Id == request.RelationId);
+            var relation = await _context.Relation.SingleOrDefaultAsync(x => x.Id == request.RelationId, cancellationToken);
 
             if (relation == default(Relation))
             {

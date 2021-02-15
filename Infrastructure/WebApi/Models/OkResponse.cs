@@ -2,7 +2,7 @@
 {
     public class OkResponse
     {
-        public StatusCodeEnum Status { get; set; } = StatusCodeEnum.Ok;
+        public string Status { get; set; } = StatusCodeEnum.Ok.ToString();
 
         public object Data { get; set; }
     }

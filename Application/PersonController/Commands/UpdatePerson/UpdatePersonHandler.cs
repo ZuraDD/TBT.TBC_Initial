@@ -28,14 +28,14 @@ namespace Application.PersonController.Commands.UpdatePerson
             var personNew = Person.Create(request.FirstName, request.LastName, request.PersonalNumber,
                 request.BirthDate, request.GenderType, request.CityId);
 
-            var person = _context.Person.Include(x => x.PhoneNumbers).SingleOrDefault(x => x.Id == request.Id);
+            var person = await _context.Person.Include(x => x.PhoneNumbers).SingleOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
 
             if (person == default(Person))
             {
                 throw new ApplicationMessageException(ApplicationExceptionCode.PersonNotFound);
             }
 
-            if (_context.Person.Any(x => x.Id != person.Id && x.PersonalNumber.Value == personNew.PersonalNumber.Value))
+            if (await _context.Person.AnyAsync(x => x.Id != person.Id && x.PersonalNumber.Value == personNew.PersonalNumber.Value, cancellationToken))
             {
                 throw new ApplicationMessageException(ApplicationExceptionCode.PersonalNumberAlreadyExists);
             }
@@ -61,7 +61,7 @@ namespace Application.PersonController.Commands.UpdatePerson
                 }
                 else
                 {
-                    if (_context.PhoneNumber.Any(x => x.Value == phoneNumber.Value))
+                    if (await _context.PhoneNumber.AnyAsync(x => x.Value == phoneNumber.Value, cancellationToken))
                     {
                         throw new ApplicationMessageException(ApplicationExceptionCode.PhoneNumberAlreadyExists);
                     }

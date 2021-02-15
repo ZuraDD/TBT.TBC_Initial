@@ -23,7 +23,7 @@ namespace Application.PersonController.Queries.GetPersonList
 
         public ICollection<int> CityIds { get; set; }
 
-        public SearchType SearchTypeId { get; set; } = SearchType.Simple;
+        public bool IsAdvancedSearchEnabled { get; set; } = false;
 
         public int PageNumber { get; set; } = 1;
 
@@ -32,12 +32,6 @@ namespace Application.PersonController.Queries.GetPersonList
         public GetPersonListQuery()
         {
             CityIds = new List<int>();
-        }
-
-        public enum SearchType
-        {
-            Simple = 1,
-            Advanced = 2
         }
     }
 }

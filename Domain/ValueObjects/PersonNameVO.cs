@@ -34,13 +34,13 @@ namespace Domain.ValueObjects
                 ||
                 string.IsNullOrWhiteSpace(personName.LastName)
                 ||
-                !Regex.Match(personName.FirstName, "^([a-zA-Z]+|[ა-ჰ]+)$", RegexOptions.IgnoreCase).Success
-                ||
-                !Regex.Match(personName.LastName, "^([a-zA-Z]+|[ა-ჰ]+)$", RegexOptions.IgnoreCase).Success
-                ||
                 !Enumerable.Range(2, 50).Contains(personName.FirstName.Length)
                 ||
                 !Enumerable.Range(2, 50).Contains(personName.LastName.Length)
+                ||
+                !Regex.Match(personName.FirstName, "^([a-zA-Z]+|[ა-ჰ]+)$", RegexOptions.IgnoreCase).Success
+                ||
+                !Regex.Match(personName.LastName, "^([a-zA-Z]+|[ა-ჰ]+)$", RegexOptions.IgnoreCase).Success
             )
                 throw new DomainException(DomainExceptionCode.InvalidPersonName);
         }
@@ -52,7 +52,7 @@ namespace Domain.ValueObjects
 
         public override string ToString()
         {
-            return $"FirstName - {FirstName}, LastName - {LastName}"; ;
+            return $"FirstName - {FirstName}, LastName - {LastName}";
         }
 
         protected override IEnumerable<object> GetEqualityComponents()
