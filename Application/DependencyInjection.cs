@@ -22,7 +22,7 @@ namespace Application
 
             services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
             services.AddMediatR(Assembly.GetExecutingAssembly());
-            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(DomainEventHandlerBehaviour<,>));
+            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(DomainExceptionHandlerBehaviour<,>));
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviour<,>));
 
             return services;

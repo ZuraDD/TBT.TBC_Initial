@@ -6,9 +6,9 @@ using MediatR;
 
 namespace Application.Common.Behaviours
 {
-    public class DomainEventHandlerBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
+    public class DomainExceptionHandlerBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
     {
-        public DomainEventHandlerBehaviour() { }
+        public DomainExceptionHandlerBehaviour() { }
 
         public async Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next)
         {
