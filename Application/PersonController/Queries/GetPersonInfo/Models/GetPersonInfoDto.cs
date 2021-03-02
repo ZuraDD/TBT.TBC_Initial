@@ -29,9 +29,9 @@ namespace Application.PersonController.Queries.GetPersonInfo.Models
         
         public string CityName { get; set; }
 
-        public ICollection<GetPersonInfoPhoneNumberDto> PhoneNumbers { get; set; }
+        public IEnumerable<GetPersonInfoPhoneNumberDto> PhoneNumbers { get; set; }
 
-        public ICollection<GetPersonInfoRelationDto> Relations { get; set; }
+        public IEnumerable<GetPersonInfoRelationDto> Relations { get; set; }
 
         public void Mapping(MappingProfile profile)
         {

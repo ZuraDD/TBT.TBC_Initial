@@ -16,48 +16,49 @@ namespace WebApi.Controllers
 {
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [Route("persons")]
     public class PersonController : BaseController
     {
         public PersonController(IMediator mediator) : base(mediator) { }
 
-        [HttpGet("person/{id}")]
-        public async Task<GetPersonInfoDto> GetPersonInfo([FromRoute] int id, [FromQuery] GetPersonInfoQuery command)
+        [HttpGet("{personId}")]
+        public async Task<GetPersonInfoDto> GetPersonInfo([FromRoute] int personId, [FromQuery] GetPersonInfoQuery command)
         {
-            command.PersonId = id;
+            command.PersonId = personId;
 
             return await Mediator.Send(command);
         }
 
-        [HttpGet("persons")]
+        [HttpGet]
         public async Task<PaginatedList<GetPersonListDto>> GetPersonList([FromQuery] GetPersonListQuery command)
         {
             return await Mediator.Send(command);
         }
 
-        [HttpPost("person")]
+        [HttpPost]
         public async Task<Unit> Create([FromBody] CreatePersonCommand command)
         {
             return await Mediator.Send(command);
         }
 
-        [HttpDelete("person/{id}")]
-        public async Task<Unit> Delete([FromRoute] int id)
+        [HttpDelete("{personId}")]
+        public async Task<Unit> Delete([FromRoute] DeletePersonCommand command)
         {
-            return await Mediator.Send(new DeletePersonCommand{Id = id});
+            return await Mediator.Send(command);
         }
 
-        [HttpPut("person/{id}")]
-        public async Task<Unit> Update([FromRoute] int id, [FromBody] UpdatePersonCommand command)
+        [HttpPut("{personId}")]
+        public async Task<Unit> Update([FromRoute] int personId, [FromBody] UpdatePersonCommand command)
         {
-            command.Id = id;
+            command.Id = personId;
 
             return await Mediator.Send(command);
         }
 
-        [HttpPut("person/{id}/image")]
-        public async Task<Unit> UpdateImage([FromRoute] int id, [FromForm] UpdatePersonImageCommand command)
+        [HttpPut("Image")]
+        public async Task<Unit> UpdateImage([FromRoute] int personId, [FromForm] UpdatePersonImageCommand command)
         {
-            command.Id = id;
+            command.Id = personId;
 
             return await Mediator.Send(command);
         }

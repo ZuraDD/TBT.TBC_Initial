@@ -10,11 +10,12 @@ namespace WebApi.Controllers
 {
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [Route("reports")]
     public class ReportController : BaseController
     {
         public ReportController(IMediator mediator) : base(mediator) { }
 
-        [HttpGet("report")]
+        [HttpGet]
         public async Task<List<GetReportDto>> Get([FromQuery] GetReportQuery command)
         {
             return await Mediator.Send(command);

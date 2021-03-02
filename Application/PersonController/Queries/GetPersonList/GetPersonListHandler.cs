@@ -3,6 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Application.Common.Interfaces;
 using Application.Common.Mappings;
+using Application.Implementations.CustomServiceMapperImplementations;
 using Application.PersonController.Queries.GetPersonList.Models;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
@@ -15,16 +16,20 @@ namespace Application.PersonController.Queries.GetPersonList
     {
         private readonly IApplicationDbContext _context;
         private readonly IMapper _mapper;
+        private readonly CustomPersonEntityServiceMapper _customPersonEntityServiceMapper;
 
-        public GetPersonListHandler(IApplicationDbContext context, IMapper mapper)
+        public GetPersonListHandler(IApplicationDbContext context, IMapper mapper, CustomPersonEntityServiceMapper customPersonEntityServiceMapper)
         {
             _context = context;
             _mapper = mapper;
+            _customPersonEntityServiceMapper = customPersonEntityServiceMapper;
         }
 
         public async Task<PaginatedList<GetPersonListDto>> Handle(GetPersonListQuery request, CancellationToken cancellationToken)
         {
-            var query = _context.Person.Include(x => x.City)
+            var query = _context.Person
+                .Include(x => x.City)
+                .Include(x => x.GenderType)
                 .Where(x => string.IsNullOrWhiteSpace(request.FirstName) ||
                             EF.Functions.Like(x.Name.FirstName, $"%{request.FirstName}%"))
                 .Where(x => string.IsNullOrWhiteSpace(request.LastName) ||
@@ -38,7 +43,7 @@ namespace Application.PersonController.Queries.GetPersonList
                     .Where(x => !request.BirthDateFrom.HasValue || x.BirthDate.Value >= request.BirthDateFrom.Value)
                     .Where(x => !request.BirthDateTo.HasValue || x.BirthDate.Value <= request.BirthDateTo.Value);
 
-            return await query.ProjectTo<GetPersonListDto>(_mapper.ConfigurationProvider).OrderBy(x=> x.Id).AsNoTracking()
+            return await query.OrderBy(x => x.Id).Select(x => _customPersonEntityServiceMapper.MapToGetPersonListDto(x)).AsNoTracking()
                 .PaginatedListAsync(request.PageNumber, request.PageSize);
         }
     }

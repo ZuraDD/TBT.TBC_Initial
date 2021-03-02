@@ -13,10 +13,10 @@ namespace WebApi.Controllers
     {
         public RelationController(IMediator mediator) : base(mediator) { }
 
-        [HttpPost("person/{id}/relation")]
-        public async Task<Unit> Create([FromRoute] int id, [FromBody] CreateRelationCommand command)
+        [HttpPost("person/{personId}/relation")]
+        public async Task<Unit> Create([FromRoute] int personId, [FromBody] CreateRelationCommand command)
         {
-            command.PersonFor = id;
+            command.PersonFor = personId;
 
             return await Mediator.Send(command);
         }

@@ -29,7 +29,7 @@ namespace WebApi
 
                     if (context.GetContext().Database.IsSqlServer())
                     {
-                        context.GetContext().Database.Migrate();
+                        await context.GetContext().Database.MigrateAsync();
                     }
 
                     await ApplicationDbContextSeed.SeedSampleDataAsync(context);
